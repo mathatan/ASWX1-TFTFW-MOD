@@ -1,4 +1,4 @@
-﻿#######################################################################
+#######################################################################
 # Target Machine:artillery3d Sidewinder X1 (tested with September 2019 model)
 # basefiles downloaded from: http://artillery3d.com/en/Content/490193.html
 # modified by: rob3dprint@gmail.com
@@ -190,8 +190,8 @@ It will auto heat up if the current temp doesn't reach the target.
 
 #Manual Bed Level: Homing, All Motors but Z Off
 # Cmds: Move home, Move z0;all steppers off;
->moreitem_button2_cmd:G28;G1 Z0;M18 S600;M18 X Y E;
-
+#>moreitem_button2_cmd:G28;G1 Z0;M18 S600;M18 X Y E;
+>moreitem_button2_cmd:G28; G91; G0 X28 Y-33; G90; G1 Z0;
 
  LiveAdjustZ+
 >moreitem_button3_cmd:M290 Z0.025; M500;
@@ -202,8 +202,8 @@ It will auto heat up if the current temp doesn't reach the target.
 #Factory Reset
 >moreitem_button5_cmd:M502; M500;
 
-#Bed Level
->moreitem_button6_cmd:G28; G91; G0 X28 Y-33; G90; G1 Z0;
+#Auto Bed Level
+>moreitem_button5_cmd:M280 P0 S60; G4 P500; M280 P0 S90; G4 P200
 
 #LiveAdjustZ- 
 >moreitem_button7_cmd:M290 Z-0.025; M500;
@@ -211,24 +211,14 @@ It will auto heat up if the current temp doesn't reach the target.
 
 
 #how many "More" button display on screen interface
->morefunc_cnt:5
+>morefunc_cnt:2
 
 #command setting on button1~7
-# Babystep -
->morefunc1_cmd:M290 Z-0.025;
-# Babystep +
->morefunc2_cmd:M290 Z0.025;
-# Filament Change 
->morefunc3_cmd:M600;
-# Emergency Stop 
->morefunc4_cmd:M112;
-# Save to EEPROM
->morefunc5_cmd:M500;
-# Unused
+>morefunc1_cmd:M290 Z0.025; M500;
+>morefunc2_cmd:M290 Z-0.025; M500;
+>morefunc3_cmd:M42 P4 S0;M42 P5 S0;M42 P6 S0;
+>morefunc4_cmd:M42 P4 S255;M42 P5 S255;M42 P6 S255;
 >morefunc6_cmd:G28;
-# Unused
->morefunc7_cmd:G28;
-
 
 
 #---------------------------------------------------------------------------------
@@ -247,7 +237,7 @@ It will auto heat up if the current temp doesn't reach the target.
 >cfg_state_text_color:0xFFFFFF
 
 #the color of file button
->cfg_filename_background_color:0x232323
+>cfg_filename_background_color:0x000000
 
 #the color of file text
 >cfg_filename_color:0xFFFFFF
