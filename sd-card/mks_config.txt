@@ -119,11 +119,11 @@ It will auto heat up if the current temp doesn't reach the target.
 >cfg_point_number:5
 
 #the coordinates of 5 point on manual leveling
->cfg_point1:50,50
->cfg_point2:250,50
->cfg_point3:250,250
->cfg_point4:50,250
->cfg_point5:150,150
+>cfg_point1:45,45
+>cfg_point2:265,45
+>cfg_point3:265,265
+>cfg_point4:45,265
+>cfg_point5:155,155
 
 #the travel speed of leveling(mm/min)
 >cfg_leveling_z_speed:1500
@@ -185,48 +185,52 @@ It will auto heat up if the current temp doesn't reach the target.
 
 #########################################
 #Autotuning for nozzle+Bed + Auto-Save
+# Cmds: Fan full;Wait 1s;Run bid rune 8 cycles for hotend 0 abort for 220c;wait 1s;run bid tune for 8 cycles for bed abort on 72c;wait 1s;save;wait 1s;fan off;wait 1s
 >moreitem_button1_cmd:M106 S255;G4 S1;M303 C8 E0 S220 U1;G4 S1;M303 C8 E-1 S72 U1;G4 S1;M500;G4 S1;M107;G4 S1;
 
-#Manuel Bed Level: Homing, All Motors but Z Off (Blue -> Green)
->moreitem_button2_cmd:M42 P4 S0;M42 P5 S0;M42 P6 S255;G28;G1 Z0;M18 S600;M18 X Y E; M42 P4 S255;M42 P5 S0;M42 P6 S0;
+#Manual Bed Level: Homing, All Motors but Z Off
+# Cmds: Move home, Move z0;all steppers off;
+>moreitem_button2_cmd:G28;G1 Z0;M18 S600;M18 X Y E;
 
- LiveAdjustZ+ (-> green)
->moreitem_button3_cmd:M290 Z0.025;M42 P4 S255;M42 P5 S0;M42 P6 S0;
 
-#SaveToEEPROM (red -> green)
->moreitem_button4_cmd:M42 P4 S0;M42 P5 S255;M42 P6 S0;M500;G4 S1;M42 P4 S255;M42 P5 S0;M42 P6 S0;
+ LiveAdjustZ+
+>moreitem_button3_cmd:M290 Z0.025; M500;
 
-#PreHeat PLA (blue -> green)
->moreitem_button5_cmd:M42 P4 S0;M42 P5 S0;M42 P6 S255;M104 S205; M140 S60; G4 P500;M42 P4 S255;M42 P5 S0;M42 P6 S0;
+#SaveToEEPROM
+>moreitem_button4_cmd:M500;
 
-#PreHeat PETG (blue -> green)
->moreitem_button6_cmd:M42 P4 S0;M42 P5 S0;M42 P6 S255;M104 S235; M140 S85; G4 P500;M42 P4 S255;M42 P5 S0;M42 P6 S0;
+#Factory Reset
+>moreitem_button5_cmd:M502; M500;
 
-#LiveAdjustZ- (-> green)
->moreitem_button7_cmd:M290 Z-0.025;M42 P4 S0;M42 P5 S0;M42 P6 S255;
+#Bed Level
+>moreitem_button6_cmd:G28; G91; G0 X28 Y-33; G90; G1 Z0;
+
+#LiveAdjustZ- 
+>moreitem_button7_cmd:M290 Z-0.025; M500;
 #########################################
 
 
 #how many "More" button display on screen interface
 >morefunc_cnt:5
 
-#RobRob: these buttons are available once a printjob is started
-#the files are named: bmp_morefunc1..6
-#command setting on button1~6
-#########################################
-#LightsOut
->morefunc1_cmd:M42 P4 S0;M42 P5 S0;M42 P6 S0;
-#Lights On (White)
->morefunc2_cmd:M42 P4 S255;M42 P5 S255;M42 P6 S255;
-#LiveAdjustZ+ (-> green)
->morefunc3_cmd:M290 Z0.025;M42 P4 S255;M42 P5 S0;M42 P6 S0;
-#LiveAdjustZ- (-> green)
->morefunc4_cmd:M290 Z-0.025;M42 P4 S0;M42 P5 S0;M42 P6 S255;
-#SaveToEEPROM (red -> green)
->morefunc5_cmd:M42 P4 S0;M42 P5 S255;M42 P6 S0;M500;G4 S1;M42 P4 S255;M42 P5 S0;M42 P6 S0;
-#not used currently
+#command setting on button1~7
+# Babystep -
+>morefunc1_cmd:M290 Z-0.025;
+# Babystep +
+>morefunc2_cmd:M290 Z0.025;
+# Filament Change 
+>morefunc3_cmd:M600;
+# Emergency Stop 
+>morefunc4_cmd:M112;
+# Save to EEPROM
+>morefunc5_cmd:M500;
+# Unused
 >morefunc6_cmd:G28;
-#########################################
+# Unused
+>morefunc7_cmd:G28;
+
+
+
 #---------------------------------------------------------------------------------
 ##### Display Customization(button and logo customized see User's Manual) #######
 
@@ -243,7 +247,7 @@ It will auto heat up if the current temp doesn't reach the target.
 >cfg_state_text_color:0xFFFFFF
 
 #the color of file button
->cfg_filename_background_color:0x000000
+>cfg_filename_background_color:0x232323
 
 #the color of file text
 >cfg_filename_color:0xFFFFFF
